@@ -1,0 +1,7 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "routes": [
+    { "src": "/rider-signup", "dest": "/rider-signup.html" }
+  ]
+}
