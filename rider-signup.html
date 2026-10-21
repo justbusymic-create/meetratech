@@ -16,9 +16,29 @@
   <header class="header"><div class="header-inner"><a class="logo" href="index.html" aria-label="Meetra home"><img src="assets/meetra-logo.png" alt="Meetra"></a><a class="back" href="index.html">← Back to Meetra</a></div></header>
   <main class="wrap">
     <div class="intro"><div class="eyebrow">Passenger waitlist</div><h1>Tell us about your commute.</h1><p>Share your route and travel needs to join the Meetra passenger waitlist. This is an expression of interest, not a trip booking or confirmed seat.</p></div>
-    <div class="form-shell"><iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdlMzTA7BjKblUUwGGikQUoASXECiY_954YcgibzhQx1yXlVQ/viewform?embedded=true" title="Meetra passenger waitlist form" loading="eager">Loading the Meetra passenger waitlist form…</iframe></div>
+    <div class="form-shell" id="waitlist-form"><iframe id="waitlist-iframe" src="https://docs.google.com/forms/d/e/1FAIpQLSdlMzTA7BjKblUUwGGikQUoASXECiY_954YcgibzhQx1yXlVQ/viewform?embedded=true" title="Meetra passenger waitlist form" loading="eager">Loading the Meetra passenger waitlist form…</iframe></div>
     <p class="help">If the form does not load, <a href="https://docs.google.com/forms/d/e/1FAIpQLSdlMzTA7BjKblUUwGGikQUoASXECiY_954YcgibzhQx1yXlVQ/viewform" target="_blank" rel="noopener noreferrer">open the waitlist form directly</a>.</p>
     <div class="company">Built by Meetra Technologies Ltd.</div>
   </main>
+  <script>
+    // Google hosts the embedded form on another domain, so we cannot inspect its
+    // confirmation page. Its iframe load event still lets us return the viewport
+    // to the top of the form after Google displays the post-submit response.
+    const waitlistFrame = document.getElementById('waitlist-iframe');
+    const waitlistForm = document.getElementById('waitlist-form');
+    let formHasLoaded = false;
+
+    waitlistFrame.addEventListener('load', () => {
+      if (!formHasLoaded) {
+        formHasLoaded = true;
+        return;
+      }
+
+      window.requestAnimationFrame(() => {
+        const top = waitlistForm.getBoundingClientRect().top + window.scrollY - 12;
+        window.scrollTo({ top, behavior: 'smooth' });
+      });
+    });
+  </script>
 </body>
 </html>
